@@ -1,4 +1,4 @@
-# 🛡️ Access Management for Odoo 17
+# Access Management for Odoo 17
 
 [![Odoo Version](https://img.shields.io/badge/Odoo-17.0-blue.svg)](https://www.odoo.com/)
 [![License](https://img.shields.io/badge/License-LGPL--3-green.svg)](https://www.gnu.org/licenses/lgpl-3.0.html)
@@ -9,7 +9,7 @@
 
 ---
 
-## 📸 Visual Tour & Real System Screenshots
+## Visual Tour & Real System Screenshots
 
 ### 1. Centralized Access Profile Dashboard
 Manage all security rules, general policies, and multi-company bindings with live smart stat counters.
@@ -53,9 +53,9 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-## ✨ Key Features & Capabilities
+## Key Features & Capabilities
 
-### 1. 📂 Additive & Subtractive Menu Visibility (`access.management.menu`)
+### 1. Additive & Subtractive Menu Visibility (`access.management.menu`)
 * **Add Menus (`Show Menu = ON`)**: Adds the chosen menu (and its submenus) **on top of** what the user already has access to from standard groups.
 * **Auto Read Access Elevation**: Automatically grants default **Read** permissions to underlying models (e.g., `sale.order`) and bypasses group record rules so records can be opened and viewed seamlessly.
 * **Hide Menus (`Show Menu = OFF`)**: Subtracts/hides specific menus and submenus.
@@ -63,14 +63,14 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-### 2. 🔘 Dynamic Button & Tab Discovery Dropdowns
+### 2. Dynamic Button & Tab Discovery Dropdowns
 * Dynamic XML arch parser inspects views and provides searchable dropdowns (`button_item_id` / `tab_item_id`).
 * Hide standard action buttons (Create, Edit, Delete, Duplicate, Export) or specific workflow buttons with one click.
 * Hide notebook tabs (e.g., *Customer Signature*, *Other Information*, *Internal Notes*).
 
 ---
 
-### 3. 🎛️ Model-Level CRUD Access Matrix (`access.management.model`)
+### 3. Model-Level CRUD Access Matrix (`access.management.model`)
 * **Permission Elevation & Restriction**: Directly grant or revoke permissions (`perm_read`, `perm_create`, `perm_write`, `perm_unlink`) per model.
 * **Child Model Auto-Resolution**: Line items (e.g. `sale.order.line`, `account.move.line`) automatically inherit access from their parent model.
 * **Hide Export**: Hides the export button and Action menu Export option; blocks backend `export_data()`.
@@ -80,7 +80,7 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-### 4. 🎯 Domain / Record-Level Security Rules (`access.management.domain`)
+### 4. Domain / Record-Level Security Rules (`access.management.domain`)
 * Define dynamic record filters using standard Odoo domain syntax:
   ```python
   [('user_id', '=', user.id)]
@@ -88,14 +88,14 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
   [('state', 'in', ['draft', 'sent'])]
   ```
 * Apply domains **specifically** per operation:
-  * ✅ **Read / Search**: Filters search results and record listings.
-  * ✅ **Create**: Validates record values upon creation.
-  * ✅ **Write / Edit**: Restricts modifying records outside the permitted domain.
-  * ✅ **Delete**: Prevents deleting records that fall outside the permitted domain.
+  *  **Read / Search**: Filters search results and record listings.
+  *  **Create**: Validates record values upon creation.
+  *  **Write / Edit**: Restricts modifying records outside the permitted domain.
+  *  **Delete**: Prevents deleting records that fall outside the permitted domain.
 
 ---
 
-### 5. 🔒 Field-Level Access Control (`access.management.field`)
+### 5. Field-Level Access Control (`access.management.field`)
 * **Hide Field (`is_invisible`)**: Hides the field completely from form, tree, and kanban views.
 * **Read-Only (`is_readonly`)**: Locks the field on the UI and protects it against ORM `write()` modifications.
 * **Required (`is_required`)**: Forces a field to be mandatory on form views before saving.
@@ -103,7 +103,7 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-### 6. 💬 Chatter Access Control (`access.management.chatter`)
+### 6. Chatter Access Control (`access.management.chatter`)
 * **Hide Entire Chatter**: Completely removes the chatter pane from form views.
 * **Hide Send Message**: Disables the message composer button.
 * **Hide Log Note**: Disables the internal note button.
@@ -111,7 +111,7 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-### 7. 🌐 Global Security Policies (`access.management`)
+### 7. Global Security Policies (`access.management`)
 * **Read-Only Mode**: Instantly places the user/company in read-only mode across the entire system.
 * **Disable Developer Mode**: Strips debug capabilities and disables developer tools for restricted users.
 * **Global Export / Import Restrictions**: One-click toggle to disable export or import system-wide.
@@ -119,13 +119,13 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-### 8. 🏢 Multi-Company & URL/Action Protection
+### 8. Multi-Company & URL/Action Protection
 * Scope any access profile to specific companies (`company_ids`).
 * **Direct Navigation Protection**: Automatically intercepts direct URL parameter manipulation and company switching to prevent bypassing menu and action restrictions.
 
 ---
 
-### 9. 💾 Automated Backup Solution (`backups/take_backup.sh`)
+### 9. Automated Backup Solution (`backups/take_backup.sh`)
 * Easily create timestamped `.tar.gz` module code archives and full PostgreSQL database dumps:
   ```bash
   /home/hp/src/tutorials/access_management/backups/take_backup.sh
@@ -133,7 +133,7 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-## 🚀 Quick Setup Guide
+## Quick Setup Guide
 
 1. Navigate to **Settings ➔ Access Management ➔ Access Management Profiles**.
 2. Click **New** to create a profile (e.g., *Sales & CRM Security Profile*).
@@ -143,7 +143,7 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-## 👥 Supported Editions & Requirements
+## Supported Editions & Requirements
 
 * **Odoo Version**: Odoo 17.0 (Community & Enterprise)
 * **Dependencies**: `base`, `web`, `mail`
@@ -151,7 +151,7 @@ Select any model to automatically discover and select buttons (e.g. `Confirm (ac
 
 ---
 
-## 📄 License & Credits
+## License & Credits
 
 Developed as part of the Enterprise Access Management Suite.
 Released under the **GNU Lesser General Public License v3.0 (LGPL-3)**.
