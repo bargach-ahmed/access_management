@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Form View -->
+    <record id="view_access_management_form" model="ir.ui.view">
+        <field name="name">access.management.form</field>
+        <field name="model">access.management</field>
+        <field name="arch" type="xml">
+            <form string="Access Management Profile">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button class="oe_stat_button" icon="fa-list-ul" type="object" name="action_view_menus">
+                            <field name="hide_menu_count" widget="statinfo" string="Menus"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-cubes" type="object" name="action_view_models">
+                            <field name="model_rule_count" widget="statinfo" string="Model Rules"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-filter" type="object" name="action_view_domains">
+                            <field name="domain_rule_count" widget="statinfo" string="Domain Rules"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-eye-slash" type="object" name="action_view_fields">
+                            <field name="field_rule_count" widget="statinfo" string="Field Rules"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-hand-pointer-o" type="object" name="action_view_buttons">
+                            <field name="button_rule_count" widget="statinfo" string="Button Rules"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-folder-o" type="object" name="action_view_tabs">
+                            <field name="tab_rule_count" widget="statinfo" string="Tab Rules"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-comments-o" type="object" name="action_view_chatter">
+                            <field name="chatter_rule_count" widget="statinfo" string="Chatter Rules"/>
+                        </button>
+                    </div>
+
+                    <div class="oe_title">
+                        <label for="name" string="Access Profile Name"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Sales Rep Access Policy"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="company_ids" widget="many2many_tags" options="{'no_create': True}" placeholder="All Companies (Global)"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <!-- Tab 1: Users & Groups -->
+                        <page string="Users &amp; Groups" name="users_groups" icon="fa-users">
+                            <group>
+                                <field name="user_ids" widget="many2many_tags" placeholder="Select Users to apply this profile..."/>
+                                <field name="group_ids" widget="many2many_tags" placeholder="Select User Security Groups..."/>
+                            </group>
+                        </page>
+
+                        <!-- Tab 9: Global Settings -->
+                        <page string="Global Settings" name="global_settings" icon="fa-sliders">
+                            <group string="Global System-Wide Policies">
+                                <group>
+                                    <field name="readonly_mode" widget="boolean_toggle"/>
+                                    <field name="hide_chatter_globally" widget="boolean_toggle"/>
+                                    <field name="disable_debug_mode" widget="boolean_toggle"/>
+                                </group>
+                                <group>
+                                    <field name="hide_export_globally" widget="boolean_toggle"/>
+                                    <field name="hide_import_globally" widget="boolean_toggle"/>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Tab 2: Hide Menus & Submenus -->
+                        <page string="Hide Menus &amp; Submenus" name="hide_menus" icon="fa-bars">
+                            <p class="text-muted">
+                                Select menus to configure. By default, adding a menu hides it (Switch OFF). Switch <b>Show Menu</b> to <b>ON</b> to show that menu exclusively (whitelisting it, hiding all other menus, and granting default read access to its model).
+                            </p>
+                            <field name="menu_line_ids">
+                                <tree editable="bottom" string="Menu Access Rules">
+                                    <field name="menu_id" options="{'no_create': True}" string="Target Menu"/>
+                                    <field name="parent_id" string="Parent Menu"/>
+                                    <field name="is_show" string="Show Menu" widget="boolean_toggle"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Tab 3: Model CRUD Access Matrix -->
+                        <page string="Model Access (CRUD)" name="models_access" icon="fa-cubes">
+                            <field name="model_line_ids">
+                                <tree editable="bottom" string="Model Access Rules">
+                                    <field name="model_id" options="{'no_create': True}" string="Target Model"/>
+                                    <field name="perm_read" string="Read"/>
+                                    <field name="perm_create" string="Create"/>
+                                    <field name="perm_write" string="Write (Edit)"/>
+                                    <field name="perm_unlink" string="Delete"/>
+                                    <field name="hide_export" string="Hide Export"/>
+                                    <field name="hide_import" string="Hide Import"/>
+                                    <field name="hide_duplicate" string="Hide Duplicate"/>
+                                    <field name="hide_archive" string="Hide Archive"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Tab 4: Domain / Record Rules -->
+                        <page string="Domain Rules (Records)" name="domains_access" icon="fa-filter">
+                            <p class="text-muted">
+                                Define record-level domain filters per model (e.g. <code>[('user_id', '=', user.id)]</code> or <code>[('company_id', '=', company.id)]</code>).
+                            </p>
+                            <field name="domain_line_ids">
+                                <tree editable="bottom" string="Domain Rules">
+                                    <field name="model_id" options="{'no_create': True}" string="Target Model"/>
+                                    <field name="domain" string="Domain Filter Expression" placeholder="e.g. [('user_id', '=', user.id)]"/>
+                                    <field name="apply_read" string="Read"/>
+                                    <field name="apply_create" string="Create"/>
+                                    <field name="apply_write" string="Write"/>
+                                    <field name="apply_unlink" string="Delete"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Tab 5: Hide & Read-Only Fields -->
+                        <page string="Hide &amp; Read-Only Fields" name="fields_access" icon="fa-lock">
+                            <field name="field_line_ids">
+                                <tree editable="bottom" string="Field Access Rules">
+                                    <field name="model_id" options="{'no_create': True}" string="Target Model"/>
+                                    <field name="field_id" options="{'no_create': True}" string="Target Field"/>
+                                    <field name="is_invisible" string="Hide (Invisible)"/>
+                                    <field name="is_readonly" string="Read-Only"/>
+                                    <field name="is_required" string="Required"/>
+                                    <field name="remove_external_link" string="Remove External Link (no_open)"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Tab 6: Hide Buttons & View Actions -->
+                        <page string="Hide Buttons &amp; Actions" name="buttons_access" icon="fa-cogs">
+                            <p class="text-muted">
+                                Hide standard action buttons (Create, Edit, Delete, Duplicate, Export) or pick a button from the <b>Select Button</b> dropdown (or type a custom name).
+                            </p>
+                            <field name="button_line_ids">
+                                <tree editable="bottom" string="Button &amp; Action Rules">
+                                    <field name="model_id" options="{'no_create': True}" string="Target Model"/>
+                                    <field name="button_item_id" options="{'no_create': True}" string="Select Button" placeholder="Choose a button..."/>
+                                    <field name="button_name" string="Button Key / Name" placeholder="e.g. action_confirm or Confirm"/>
+                                    <field name="hide_create" string="Hide Create"/>
+                                    <field name="hide_edit" string="Hide Edit"/>
+                                    <field name="hide_delete" string="Hide Delete"/>
+                                    <field name="hide_duplicate" string="Hide Duplicate"/>
+                                    <field name="hide_export" string="Hide Export"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Tab 7: Hide Form Tabs -->
+                        <page string="Hide Form Tabs" name="tabs_access" icon="fa-folder-open">
+                            <p class="text-muted">
+                                Pick a notebook tab/page from the <b>Select Form Tab</b> dropdown (or type a custom tab name).
+                            </p>
+                            <field name="tab_line_ids">
+                                <tree editable="bottom" string="Notebook Tab Rules">
+                                    <field name="model_id" options="{'no_create': True}" string="Target Model"/>
+                                    <field name="tab_item_id" options="{'no_create': True}" string="Select Form Tab" placeholder="Choose a tab..."/>
+                                    <field name="tab_name" string="Tab Key / Name" placeholder="e.g. other_information or Internal Notes"/>
+                                    <field name="is_hide" string="Hide Tab"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                        <!-- Tab 8: Chatter Access -->
+                        <page string="Chatter Access" name="chatter_access" icon="fa-comments">
+                            <field name="chatter_line_ids">
+                                <tree editable="bottom" string="Chatter Access Rules">
+                                    <field name="model_id" options="{'no_create': True}" string="Target Model"/>
+                                    <field name="hide_chatter" string="Hide Entire Chatter"/>
+                                    <field name="hide_send_message" string="Hide Send Message"/>
+                                    <field name="hide_log_note" string="Hide Log Note"/>
+                                    <field name="hide_schedule_activity" string="Hide Activities"/>
+                                </tree>
+                            </field>
+                        </page>
+
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Tree View -->
+    <record id="view_access_management_tree" model="ir.ui.view">
+        <field name="name">access.management.tree</field>
+        <field name="model">access.management</field>
+        <field name="arch" type="xml">
+            <tree string="Access Management Profiles" sample="1">
+                <field name="name"/>
+                <field name="user_ids" widget="many2many_tags"/>
+                <field name="group_ids" widget="many2many_tags"/>
+                <field name="company_ids" widget="many2many_tags" optional="show"/>
+                <field name="hide_menu_count" string="Menus" optional="show"/>
+                <field name="model_rule_count" string="Models" optional="show"/>
+                <field name="domain_rule_count" string="Domains" optional="show"/>
+                <field name="field_rule_count" string="Fields" optional="show"/>
+                <field name="button_rule_count" string="Buttons" optional="show"/>
+                <field name="tab_rule_count" string="Tabs" optional="show"/>
+                <field name="chatter_rule_count" string="Chatter" optional="show"/>
+                <field name="readonly_mode" string="Read-Only Mode" optional="hide" widget="boolean_toggle"/>
+                <field name="active" widget="boolean_toggle"/>
+            </tree>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_access_management_search" model="ir.ui.view">
+        <field name="name">access.management.search</field>
+        <field name="model">access.management</field>
+        <field name="arch" type="xml">
+            <search string="Search Access Profiles">
+                <field name="name" string="Profile Name"/>
+                <field name="user_ids" string="User"/>
+                <field name="group_ids" string="Security Group"/>
+                <field name="company_ids" string="Company"/>
+                <separator/>
+                <filter string="Active Profiles" name="active_profiles" domain="[('active', '=', True)]"/>
+                <filter string="Archived Profiles" name="archived_profiles" domain="[('active', '=', False)]"/>
+                <filter string="Read-Only Mode" name="filter_readonly" domain="[('readonly_mode', '=', True)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Company" name="group_by_company" context="{'group_by': 'company_ids'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_access_management" model="ir.actions.act_window">
+        <field name="name">Access Management</field>
+        <field name="res_model">access.management</field>
+        <field name="view_mode">tree,form</field>
+        <field name="search_view_id" ref="view_access_management_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create a new Access Management Profile!
+            </p>
+            <p>
+                Configure userwise &amp; groupwise access rights to hide menus, models, domains, fields, buttons, form tabs, and chatter.
+            </p>
+        </field>
+    </record>
+
+    <!-- Menu Item under Administration -->
+    <menuitem id="menu_access_management_root"
+              name="Access Management"
+              parent="base.menu_administration"
+              action="action_access_management"
+              sequence="100"/>
+</odoo>
